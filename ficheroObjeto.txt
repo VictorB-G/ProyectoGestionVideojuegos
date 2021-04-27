@@ -1,0 +1,5 @@
+#1#Super Mario Odyssey#Plataformas#Nintendo#LOCAL#NINTENDO_SWITCH#Pegi 7#Una aventura de Mario#2018#true#49.99
+#2#God Of War#Accion#Sony#NO#PLAYSTATION_4#Pegi 18#Kratos#2018#false#54.99
+#3#Pokémon X#RPG#Game Freak#ONLINE#NINTENDO_3DS#Pegi 18#Embarcate en una nueva aventura Pokémon#2013#true#29.99
+#4#Super Mario 3D World#Plataformas#Nintendo#LOCAL#NINTENDO_WII_U#Pegi 18#Aventuras sin igual#2014#true#29.99
+#5#Super Smash Bros Ultimate#Lucha#Nintendo#ONLINE#NINTENDO_SWITCH#Pegi 18#Zurrate de lo lindo en un gran crossover#2018#true#59.99
