@@ -144,18 +144,19 @@ public class ModeloFicheroObjeto implements IModelo{
     @Override
     public Videojuego consultarVideojuego(int idJuego) throws Exception{
         Videojuego aux=null;
-        ObjectInputStream ois =null;        
+        ObjectInputStream ois =null;
+        boolean existe=false;
         try {
             ois = new ObjectInputStream(new FileInputStream(ficheroCompleto));
             while (true){
                 aux=(Videojuego)ois.readObject();
                 if (aux.getIdJuego()==idJuego) {
-                   break;
+                    existe = true;
+                    break;
                 }
             }
         } catch (EOFException eofex){
-            aux=null;
-            throw new NoExisteVideojuegoException("No se ha encontrado ningun videojuego con ese id");
+            
         } catch (IOException ioex) {
             throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
         } catch (ClassNotFoundException cnfex) {
@@ -163,6 +164,9 @@ public class ModeloFicheroObjeto implements IModelo{
         } finally {
             try {
                 ois.close();
+                if (!existe){ 
+                    throw new NoExisteVideojuegoException("No se ha encontrado ningun videojuego con ese id");
+                }
                 return aux;
             } catch (IOException ioexCl) {
                 throw new IOException("Ha fallado al cerrar los ficheros de almacenamiento.");
@@ -174,7 +178,7 @@ public class ModeloFicheroObjeto implements IModelo{
     public Videojuego consultarVideojuego(String nombreJuego) throws Exception {
         Videojuego aux=null;
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ficheroCompleto));
-                
+        boolean existe = false;        
         try {            
             while (true){
                 aux=(Videojuego)ois.readObject();
@@ -183,8 +187,6 @@ public class ModeloFicheroObjeto implements IModelo{
                 }
             }
         } catch (EOFException eofex){
-            aux=null;
-            throw new EOFException("No se ha encontrado ningun objeto con ese id");
         } catch (IOException ioex) {
             throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
         } catch (ClassNotFoundException cnfex) {
@@ -194,6 +196,9 @@ public class ModeloFicheroObjeto implements IModelo{
         } finally {
             try {
                 ois.close();
+                if (!existe){ 
+                    throw new NoExisteVideojuegoException("No se ha encontrado ningun videojuego con ese titulo");
+                }
                 return aux;
             } catch (IOException ioexCl) {
                 throw new IOException("Ha fallado al cerrar los ficheros de almacenamiento.");

@@ -337,6 +337,7 @@ public class VentanaSwing extends JFrame implements IVentana{
         jbtnAñadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
+                videojuegoAnt = videojuego;
                 idEvento = 0;
                 jbtnSi.setVisible(true);
                 jbtnNo.setVisible(true);
@@ -349,6 +350,7 @@ public class VentanaSwing extends JFrame implements IVentana{
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 if (videojuego!=null){
+                    videojuegoAnt = videojuego;
                     idEvento = 1;
                     jbtnSi.setVisible(true);
                     jbtnNo.setVisible(true);
@@ -363,12 +365,16 @@ public class VentanaSwing extends JFrame implements IVentana{
             public void actionPerformed(ActionEvent arg0) {
                 idEvento = 2;
                 if (videojuego!=null){
-                    try {
+                    int confirmarDelete = JOptionPane.YES_NO_OPTION;    
+                    int confirmacion = JOptionPane.showConfirmDialog(null, "¿Estas seguro de que quieres eliminarlo?", "ATENCIÓN",confirmarDelete);
+                    if (confirmacion==0){
+                        try {
                         controller.notificacion();
                         vaciarCampos();
                         videojuego=null;
                     } catch (Exception ex){
                         error(ex);
+                    }
                     }
                 }else{
                     try{
@@ -388,15 +394,19 @@ public class VentanaSwing extends JFrame implements IVentana{
                         idEvento = 3;
                     } else if (!txtBusquedaTitulo.getText().isBlank()){
                         idEvento = 4;
+                    } else if (txtBusquedaId.getText().isBlank() && txtBusquedaTitulo.getText().isBlank()){
+                        throw new Exception("Recuerda añadir datos a los campos.");
                     }
                     controller.notificacion();  
-                    limpiarCamposBusqueda();
                     tbPanelPrincipal.setSelectedIndex(0);
                     setCamposVideojuego();
                 } catch (NumberFormatException ex){
-                    error(ex);
+                    ex = new NumberFormatException("Recuerda que el id es un campo númerico");
+                    error(ex);              
                 } catch (Exception ex){
                     error(ex);
+                }finally{
+                    limpiarCamposBusqueda();
                 }   
             }
         });
@@ -591,7 +601,6 @@ public class VentanaSwing extends JFrame implements IVentana{
     
     private void crearObjetoVideojuego() throws Exception{
         try {
-            videojuegoAnt = videojuego;
             videojuego = new Videojuego();
             videojuego.setIdJuego(Integer.parseInt(txtIdJuego.getText()));
             videojuego.setTitulo(txtTitulo.getText());

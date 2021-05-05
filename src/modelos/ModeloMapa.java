@@ -93,7 +93,6 @@ public class ModeloMapa implements IModelo{
 
     @Override
     public Videojuego videojuegoAnterior(Videojuego v) {
-        System.out.println("ant");
         Videojuego aux = null, auxAnterior;
         Set set;
         set = videojuegos.keySet();
@@ -113,7 +112,6 @@ public class ModeloMapa implements IModelo{
 
     @Override
     public Videojuego videojuegoSiguiente(Videojuego v) {
-        System.out.println("sig");
         Videojuego aux;
         Set set;
         set = videojuegos.keySet();

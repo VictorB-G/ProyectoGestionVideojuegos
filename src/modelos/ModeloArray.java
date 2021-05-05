@@ -1,4 +1,5 @@
 package modelos;
+import excepciones.NoExisteVideojuegoException;
 import excepciones.VideojuegoDuplicadoException;
 import modelos.IModelo;
 import java.util.Arrays;
@@ -8,7 +9,7 @@ public class ModeloArray implements IModelo{
     private int juegoActual;
 
     public ModeloArray() {
-        videojuegos = new Videojuego[15];
+        videojuegos = new Videojuego[50];
         juegoActual=0;
     }
 
@@ -57,7 +58,7 @@ public class ModeloArray implements IModelo{
     }
 
     @Override
-    public Videojuego consultarVideojuego(int idJuego) {
+    public Videojuego consultarVideojuego(int idJuego) throws NoExisteVideojuegoException {
         juegoActual=0;
         while (videojuegos[juegoActual]!=null) {
             if (videojuegos[juegoActual].getIdJuego()==idJuego) {
@@ -65,11 +66,11 @@ public class ModeloArray implements IModelo{
             }
             juegoActual++;
         }
-        return null;
+        throw new NoExisteVideojuegoException("No existe ese videojuego.");
     }
 
     @Override
-    public Videojuego consultarVideojuego(String nombreJuego) {
+    public Videojuego consultarVideojuego(String nombreJuego) throws NoExisteVideojuegoException {
         juegoActual=0;
         while (videojuegos[juegoActual]!=null) {
             if (videojuegos[juegoActual].getTitulo().equals(nombreJuego)) {
@@ -77,7 +78,7 @@ public class ModeloArray implements IModelo{
             }
             juegoActual++;
         }
-        return null;
+        throw new NoExisteVideojuegoException("No existe ese videojuego.");
     }
 
     @Override
@@ -89,8 +90,11 @@ public class ModeloArray implements IModelo{
     @Override
     public Videojuego ultimoVideojuego() {
         for (juegoActual=0; videojuegos[juegoActual]!=null; juegoActual++){}
-        if (juegoActual!=0)
-            return videojuegos[juegoActual-1];
+        if (juegoActual!=0){
+            juegoActual--;
+            return videojuegos[juegoActual];
+        }
+            
         return null;
     }
 
@@ -118,7 +122,7 @@ public class ModeloArray implements IModelo{
     
     private void aumentarTamaño(){
         if (juegoActual==videojuegos.length-1) {
-            Videojuego[] aux = Arrays.copyOf(videojuegos, juegoActual+15);
+            Videojuego[] aux = Arrays.copyOf(videojuegos, juegoActual+30);
             videojuegos=aux;
         }
     }  

@@ -15,7 +15,7 @@ public class Controlador {
         Videojuego aux=vista.getVideojuego();
         boolean auxB;
         switch (vista.getAccion()){
-            // 0 - A�adir
+            // 0 - Añadir
             case 0:
                 auxB = modelo.añadirVideojuego(aux);
                 break;

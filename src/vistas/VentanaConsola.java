@@ -36,15 +36,16 @@ public class VentanaConsola implements IVentana{
         System.out.println("(6) - Mostrar el videojuego anterior");
         System.out.println("(7) - Mostrar el videojuego siguiente");
         System.out.println("(8) - Mostrar el ultimo videojuego");
-        System.out.println("(9) - Salir de la aplicacion");
-        accion = sc.nextInt();
+        System.out.println("(9) - Salir de la aplicacion"); 
         try {
             try {
+                accion = sc.nextInt();
                 ejecutarAccion();
-            } catch (NumberFormatException ex){
+            } catch (NumberFormatException ex){ 
                 throw new NumberFormatException("Los tipos de datos que has introducido incorrectos.");
             }
         } catch (Exception ex){
+            sc.nextLine();
             System.out.println(ex.getMessage());
         }
     }
@@ -202,7 +203,7 @@ public class VentanaConsola implements IVentana{
     private void mostrarConsolas() {
         System.out.println("\n(0) - Nintendo Switch\n(1) - PlayStation 5\n(2) - Xbox Series X\n"
                 + "(3) - Nintendo Wii U\n(4) - Nintendo 3DS\n(5) - PlayStation 4\n"
-                + "(6) - Xbox One\n(7) - Nintendo Wii\n(8 - Nintendo DS)");
+                + "(6) - Xbox One\n(7) - Nintendo Wii\n(8) - Nintendo DS");
     }
 
     private String elegirPegi() {
@@ -274,7 +275,7 @@ public class VentanaConsola implements IVentana{
     
     private void buscarPorTitulo(){
         System.out.print("\nIntroduce el titulo del videojuego que quieres mostrar: ");
-        busquedaTitulo=sc.next();
+        busquedaTitulo=sc.nextLine();
     }
     
     private void mostrarVideojuego(){
@@ -289,6 +290,7 @@ public class VentanaConsola implements IVentana{
         System.out.println("Descripción: "+videojuego.getDescripcion());
         System.out.println("Precio: "+videojuego.getPrecio());
         System.out.println("¿Hay stock?: "+videojuego.isStock());
+        System.out.println("\n");
         
     }
 }

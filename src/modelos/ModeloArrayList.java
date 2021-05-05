@@ -1,4 +1,5 @@
 package modelos;
+import excepciones.NoExisteVideojuegoException;
 import excepciones.VideojuegoDuplicadoException;
 import modelos.IModelo;
 import java.util.*;
@@ -45,7 +46,7 @@ public class ModeloArrayList implements IModelo{
     }
 
     @Override
-    public Videojuego consultarVideojuego(int idJuego) {
+    public Videojuego consultarVideojuego(int idJuego) throws NoExisteVideojuegoException {
         juegoActual=0;
         Iterator<Videojuego> it = listaVideojuegos.iterator();
         while (it.hasNext()) {
@@ -54,11 +55,11 @@ public class ModeloArrayList implements IModelo{
             }
             juegoActual++;
         }
-        return null;
+        throw new NoExisteVideojuegoException("No existe ese videojuego.");
     }
 
     @Override
-    public Videojuego consultarVideojuego(String nombreJuego) {
+    public Videojuego consultarVideojuego(String nombreJuego) throws NoExisteVideojuegoException {
         juegoActual=0;
         Iterator<Videojuego> it = listaVideojuegos.iterator();
         while (it.hasNext()) {
@@ -67,25 +68,35 @@ public class ModeloArrayList implements IModelo{
             }
             juegoActual++;
         }
-        return null;
+        throw new NoExisteVideojuegoException("No existe ese videojuego.");
     }
 
     @Override
     public Videojuego primerVideojuego() {
         juegoActual=0;
-        return listaVideojuegos.get(juegoActual);
+        if (listaVideojuegos.size()==0){
+            return null;
+        }else{
+            return listaVideojuegos.get(juegoActual);
+        }   
     }
 
     @Override
     public Videojuego ultimoVideojuego() {
-        juegoActual=listaVideojuegos.size()-1;
-        return listaVideojuegos.get(juegoActual);
+        if (listaVideojuegos.size()==0){
+            return null;
+        } else {
+            juegoActual=listaVideojuegos.size()-1;
+            return listaVideojuegos.get(juegoActual);
+        }
     }
 
     @Override
     public Videojuego videojuegoAnterior(Videojuego v) {
         juegoActual--;
-        if (juegoActual>-1) {
+        if (listaVideojuegos.size()==0){
+            return null;
+        } else if (juegoActual>-1) {
             return listaVideojuegos.get(juegoActual);
         }else{
             juegoActual=0;
@@ -96,7 +107,9 @@ public class ModeloArrayList implements IModelo{
     @Override
     public Videojuego videojuegoSiguiente(Videojuego v) {
         juegoActual++;
-        if (juegoActual<listaVideojuegos.size()) {
+        if (listaVideojuegos.size()==0){
+            return null;
+        } else if (juegoActual<listaVideojuegos.size()) {
             return listaVideojuegos.get(juegoActual);
         }else{
             juegoActual= listaVideojuegos.size()-1;

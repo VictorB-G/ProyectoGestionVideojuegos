@@ -27,9 +27,11 @@ public class ModeloFicheroTexto implements IModelo{
             ficheroTemporal.createNewFile();
             bw = new BufferedWriter(new FileWriter(ficheroTemporal));
             br = new BufferedReader(new FileReader(ficheroCompleto));
+            //Leemos todo un fichero y lo escribimos en el otro
             while (true){
                 aux=br.readLine();
                 st = new StringTokenizer(aux, "#");
+                //Si el id se repite ponemos un boolean a true
                 if (v.getIdJuego()==Integer.parseInt(st.nextToken())){
                     repetido = true;
                 }
@@ -37,6 +39,8 @@ public class ModeloFicheroTexto implements IModelo{
                 bw.newLine();
             }           
         } catch (NullPointerException ex){
+            //NullPointer indica que ha leido hasta el final, si el videojuego
+            //esta repetido, salta una excepción por lo que no se añade al final
             try {
                 if (repetido){
                     throw new VideojuegoDuplicadoException("El videojuego ya existe.");
@@ -71,9 +75,11 @@ public class ModeloFicheroTexto implements IModelo{
             ficheroTemporal.createNewFile();
             bw = new BufferedWriter(new FileWriter(ficheroTemporal));
             br = new BufferedReader(new FileReader(ficheroCompleto));
+            //Recorrremos todo el fichero secuencialmente
             while (true) {                
                 aux = br.readLine();
                 st = new StringTokenizer(aux, "#");
+                //Mientras el id no coincida los copiamnos
                 if (idJuego!=Integer.parseInt(st.nextToken())) {
                     bw.write(aux);
                     bw.newLine();
@@ -82,6 +88,7 @@ public class ModeloFicheroTexto implements IModelo{
                 }
             }
         }catch (NullPointerException ex){
+            //Cuando llegue al final, si no existe lanzamos una excepcion
             if (!existe) {
                 throw new NoExisteVideojuegoException("No existe el videojuego que intentas eliminar.");
             }
@@ -113,6 +120,7 @@ public class ModeloFicheroTexto implements IModelo{
             while (true) {                
                 aux = br.readLine();
                 st = new StringTokenizer(aux, "#");
+                //Si coincide el id, escribimos el nuevo, si no, escrinimos lo antiguo
                 if (idJuego==Integer.parseInt(st.nextToken())) {
                     existe=true;
                     bw.write(juego.toString());
@@ -123,6 +131,7 @@ public class ModeloFicheroTexto implements IModelo{
                 }
             } 
         }catch (NullPointerException ex){
+            //Cuando llegue al final, si no existe lanzamos una excepcion
             if (!existe) {
                 throw new NoExisteVideojuegoException("No existe el videojuego que intentas modificar.");
             }
@@ -152,6 +161,7 @@ public class ModeloFicheroTexto implements IModelo{
             while (true) {                
                 aux = br.readLine();
                 st = new StringTokenizer(aux, "#");
+                //Comprobamos si existe y dejamos de leer el fichero
                 if (idJuego==Integer.parseInt(st.nextToken())) {
                     existe=true;
                     break;
@@ -163,11 +173,12 @@ public class ModeloFicheroTexto implements IModelo{
             throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
         }finally{
             try {
+                //Si no existe lanzamos excepción y si si enviamos el videojuego
+                br.close();
                 if (!existe) {
                     throw new NoExisteVideojuegoException("No existe el videojuego.");
                 }
                 auxV=convertirAVideojuego(aux);
-                br.close();
             } catch (IOException ex) {
                 throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
             }
@@ -187,6 +198,7 @@ public class ModeloFicheroTexto implements IModelo{
                 aux = br.readLine();
                 st = new StringTokenizer(aux, "#");
                 st.nextToken();
+                //Comprobamos si existe y dejamos de leer el fichero
                 if (nombreJuego.equals(st.nextToken())) {
                     existe=true;
                     break;
@@ -198,11 +210,12 @@ public class ModeloFicheroTexto implements IModelo{
             throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
         }finally{
             try {
+                br.close();
+                //Si no existe lanzamos excepción y si no enviamos el videojuego
                 if (!existe) {
                     throw new NoExisteVideojuegoException("No existe el videojuego.");
                 }
-                auxV=convertirAVideojuego(aux);
-                br.close();
+                auxV=convertirAVideojuego(aux);     
             } catch (IOException ex) {
                 throw new IOException("Ha fallado algo al al almacenar los datos en el fichero.");
             }
